@@ -72,7 +72,7 @@ class XProvider {
 
     static Uri getURI() {
         if (Util.isVirtualXposed())
-            return Uri.parse("content://eu.faircode.xlua.vxp/");
+            return Uri.parse("content://eu.tilltmk.xlua.ng.vxp/");
         else
             return Settings.System.CONTENT_URI;
     }
