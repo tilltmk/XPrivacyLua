@@ -1,8 +1,25 @@
-XPrivacyLua
-===========
+XPrivacyLua NG (tilltmk)
+========================
 
 Frequently Asked Questions
 --------------------------
+
+<a name="faq0"></a>
+**(0) What is XPrivacyLua NG and how is it different from the original?**
+
+XPrivacyLua NG is a community-maintained fork of the original XPrivacyLua with the following enhancements:
+
+* **Modern Tracking Prevention**: Enhanced hooks for contemporary tracking methods used in 2025+ apps
+* **Improved UI**: Updated Material Design 3 interface with modern styling
+* **Parallel Installation**: Uses a different package ID (`eu.tilltmk.xlua.ng`) allowing installation alongside the original XPrivacyLua
+* **Independent Signing**: Signed with a separate certificate for security and independence
+* **Active Development**: Community-maintained with ongoing improvements
+
+**Important Notes:**
+* This fork maintains all core functionality of the original XPrivacyLua
+* Data storage location remains at `/data/system/xlua` (shared with original if both installed)
+* Compatible with LSPosed and other Xposed frameworks
+* Certificate fingerprints can be verified in the README
 
 <a name="faq1"></a>
 **(1) How can I clear all data?**
@@ -17,6 +34,8 @@ You can use the pro companion app to backup and restore all restrictions and set
 **(2) Can I run XPrivacy and XPrivacyLua side by side?**
 
 Since XPrivacyLua is [in many aspects better](#user-content-faq7) than XPrivacy, running XPrivacy and XPrivacyLua side by side isn't supported.
+
+**XPrivacyLua NG Note:** XPrivacyLua NG can be installed alongside the original XPrivacyLua since it uses a different package ID (`eu.tilltmk.xlua.ng`). Both versions will share the same data storage location (`/data/system/xlua`) and can be used independently or in parallel.
 
 <a name="faq3"></a>
 **(3) How can I fix 'Module not running or updated'?**

@@ -1,11 +1,19 @@
-XPrivacyLua
-===========
+XPrivacyLua NG (tilltmk)
+========================
 
+**Fork of XPrivacyLua with modern privacy enhancements**
+
+This is a community-maintained fork of XPrivacyLua with enhanced privacy features and modern tracking prevention.
 Really simple to use privacy manager for Android 6 and later (successor of [XPrivacy](https://forum.xda-developers.com/xposed/modules/xprivacy-ultimate-android-privacy-app-t2320783"]XPrivacy[/URL])).
 
 <br>
 
-**This project is not supported anymore**
+**Changes in NG Version:**
+- Enhanced privacy hooks for modern tracking methods
+- Improved UI with Material Design 3
+- Can be installed alongside original XPrivacyLua (different package ID: `eu.tilltmk.xlua.ng`)
+- Aggressive tracking prevention for 2025+ apps
+- Signed with independent certificate
 
 <br>
 
@@ -84,16 +92,18 @@ Installation
 
 * Install [Magisk](https://www.xda-developers.com/how-to-install-magisk/)
 * Android 6-7: download, install, and activate [Xposed](http://forum.xda-developers.com/xposed)
-* Android 8-12: download, install, and activate [LSPosed](https://forum.xda-developers.com/t/lsposed-xposed-framework-8-0-11-0-edxposed-alternetive.4228973/) ~~or [EdXposed](https://forum.xda-developers.com/t/official-edxposed-the-successor-of-xposed-oreo-pie-q-r-2020-07-19.4070199)~~
-* Download, install, and activate [XPrivacyLua](https://github.com/Xposed-Modules-Repo/eu.faircode.xlua/releases)
+* Android 8-12+: download, install, and activate [LSPosed](https://forum.xda-developers.com/t/lsposed-xposed-framework-8-0-11-0-edxposed-alternetive.4228973/)
+* Download and install XPrivacyLua NG from releases
+* Activate the module in LSPosed
 
 LSPosed: please make sure that any app you want to restrict is [in the 'scope'](https://github.com/LSPosed/LSPosed/wiki/How-to-use-it#install--activate-modules) of LSposed.
 
-Certificate fingerprints:
+**XPrivacyLua NG Certificate fingerprints:**
 
-* MD5: 42:93:4F:A4:D5:AC:53:7B:04:97:3B:29:A6:6E:7B:B3
-* SHA1: 10:62:0A:E9:61:D7:88:54:F6:C9:CD:87:2C:43:88:23:28:49:C7:99
-* SHA256: 5E:69:9C:5D:AF:61:2C:AB:71:3A:35:BB:38:7C:F6:A8:86:8C:A0:DD:5D:CE:B4:CE:C1:53:8E:82:65:21:95:77
+* SHA-256: 80:19:32:14:06:5A:35:97:C5:D5:6F:58:DA:D5:10:7E:9F:64:0F:FE:B7:F1:44:F2:DA:1C:29:CD:68:0D:1F:23
+* SHA-1: 86:2C:B0:7A:EF:96:41:EF:2E:CB:2C:30:AA:37:E6:43:4E:BF:42:55
+* MD5: F8:83:76:68:B8:44:B8:23:8D:25:68:37:F3:21:DA:68
+* CN: tilltmk, OU: XPrivacyLua NG
 
 Frequently Asked Questions
 --------------------------
