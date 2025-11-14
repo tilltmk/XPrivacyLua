@@ -2939,5 +2939,264 @@
     "minSdk": 18,
     "enabled": true,
     "luaScript": "@mediadrm_unique_id"
+  },
+  // AGGRESSIVE NEW HOOKS - App Usage Spying Prevention
+  // https://developer.android.com/reference/android/app/usage/UsageStatsManager
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "UsageStatsManager.queryUsageStats",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent apps from spying on which apps you use",
+    "className": "android.app.usage.UsageStatsManager",
+    "methodName": "queryUsageStats",
+    "parameterTypes": [
+      "int",
+      "long",
+      "long"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 21,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "UsageStatsManager.queryEvents",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent apps from tracking your app usage events",
+    "className": "android.app.usage.UsageStatsManager",
+    "methodName": "queryEvents",
+    "parameterTypes": [
+      "long",
+      "long"
+    ],
+    "returnType": "android.app.usage.UsageEvents",
+    "minSdk": 21,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "UsageStatsManager.queryAndAggregateUsageStats",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent apps from getting aggregated usage statistics",
+    "className": "android.app.usage.UsageStatsManager",
+    "methodName": "queryAndAggregateUsageStats",
+    "parameterTypes": [
+      "long",
+      "long"
+    ],
+    "returnType": "java.util.Map",
+    "minSdk": 21,
+    "enabled": true,
+    "luaScript": "@generic_empty_map"
+  },
+  // AGGRESSIVE NEW HOOKS - Battery Fingerprinting Prevention
+  // https://developer.android.com/reference/android/os/BatteryManager
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "BatteryManager.getIntProperty",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent battery stats fingerprinting",
+    "className": "android.os.BatteryManager",
+    "methodName": "getIntProperty",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "int",
+    "minSdk": 21,
+    "enabled": true,
+    "luaScript": "@batterymanager_int_property"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "BatteryManager.getLongProperty",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent battery capacity fingerprinting",
+    "className": "android.os.BatteryManager",
+    "methodName": "getLongProperty",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "long",
+    "minSdk": 21,
+    "enabled": true,
+    "luaScript": "@batterymanager_long_property"
+  },
+  // AGGRESSIVE NEW HOOKS - Modern Device ID (Android 8+)
+  // https://developer.android.com/reference/android/os/Build
+  {
+    "collection": "Privacy",
+    "group": "Read.Identification",
+    "name": "Build.getSerial",
+    "author": "Claude-Privacy-2025",
+    "description": "Block modern device serial number (Android 8+)",
+    "className": "android.os.Build",
+    "methodName": "getSerial",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 26,
+    "enabled": true,
+    "luaScript": "@generic_fake_build_serial"
+  },
+  // AGGRESSIVE NEW HOOKS - Network Stats Spying
+  // https://developer.android.com/reference/android/app/usage/NetworkStatsManager
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "NetworkStatsManager.querySummary",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent detailed network traffic analysis",
+    "className": "android.app.usage.NetworkStatsManager",
+    "methodName": "querySummary",
+    "parameterTypes": [
+      "int",
+      "java.lang.String",
+      "long",
+      "long"
+    ],
+    "returnType": "android.app.usage.NetworkStats",
+    "minSdk": 23,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "NetworkStatsManager.queryDetails",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent per-app network usage spying",
+    "className": "android.app.usage.NetworkStatsManager",
+    "methodName": "queryDetails",
+    "parameterTypes": [
+      "int",
+      "java.lang.String",
+      "long",
+      "long"
+    ],
+    "returnType": "android.app.usage.NetworkStats",
+    "minSdk": 23,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  // AGGRESSIVE NEW HOOKS - Thermal Fingerprinting (Android 9+)
+  // https://developer.android.com/reference/android/os/HardwarePropertiesManager
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "HardwarePropertiesManager.getDeviceTemperatures",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent CPU temperature fingerprinting",
+    "className": "android.os.HardwarePropertiesManager",
+    "methodName": "getDeviceTemperatures",
+    "parameterTypes": [
+      "int",
+      "int"
+    ],
+    "returnType": "float[]",
+    "minSdk": 24,
+    "enabled": true,
+    "luaScript": "@generic_empty_float_array"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "HardwarePropertiesManager.getCpuUsages",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent CPU usage fingerprinting",
+    "className": "android.os.HardwarePropertiesManager",
+    "methodName": "getCpuUsages",
+    "parameterTypes": [
+    ],
+    "returnType": "float[]",
+    "minSdk": 24,
+    "enabled": true,
+    "luaScript": "@generic_empty_float_array"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "HardwarePropertiesManager.getFanSpeeds",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent fan speed fingerprinting",
+    "className": "android.os.HardwarePropertiesManager",
+    "methodName": "getFanSpeeds",
+    "parameterTypes": [
+    ],
+    "returnType": "float[]",
+    "minSdk": 24,
+    "enabled": true,
+    "luaScript": "@generic_empty_float_array"
+  },
+  // AGGRESSIVE NEW HOOKS - Display Fingerprinting
+  // https://developer.android.com/reference/android/view/Display
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "Display.getRealMetrics",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent exact screen size fingerprinting",
+    "className": "android.view.Display",
+    "methodName": "getRealMetrics",
+    "parameterTypes": [
+      "android.util.DisplayMetrics"
+    ],
+    "returnType": "void",
+    "minSdk": 17,
+    "enabled": false,
+    "luaScript": "@display_fake_metrics"
+  },
+  // AGGRESSIVE NEW HOOKS - Input Device Fingerprinting
+  // https://developer.android.com/reference/android/view/InputDevice
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "InputDevice.getDescriptor",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent peripheral device fingerprinting",
+    "className": "android.view.InputDevice",
+    "methodName": "getDescriptor",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 16,
+    "enabled": true,
+    "luaScript": "@generic_fake_hex_string"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "InputDevice.getVendorId",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent input device vendor tracking",
+    "className": "android.view.InputDevice",
+    "methodName": "getVendorId",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 19,
+    "enabled": true,
+    "luaScript": "@generic_zero"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.System",
+    "name": "InputDevice.getProductId",
+    "author": "Claude-Privacy-2025",
+    "description": "Prevent input device product tracking",
+    "className": "android.view.InputDevice",
+    "methodName": "getProductId",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 19,
+    "enabled": true,
+    "luaScript": "@generic_zero"
   }
 ]
