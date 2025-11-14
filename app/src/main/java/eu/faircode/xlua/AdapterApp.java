@@ -143,29 +143,26 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         @Override
         public void onClick(View view) {
             XApp app = filtered.get(getAdapterPosition());
-            switch (view.getId()) {
-                case R.id.itemView:
-                    if (!expanded.containsKey(app.packageName))
-                        expanded.put(app.packageName, false);
-                    expanded.put(app.packageName, !expanded.get(app.packageName));
-                    updateExpand();
-                    break;
-
-                case R.id.ivSettings:
-                    PackageManager pm = view.getContext().getPackageManager();
-                    Intent settings = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
-                    if (settings == null) {
-                        Intent browse = new Intent(Intent.ACTION_VIEW);
-                        browse.setData(Uri.parse("https://lua.xprivacy.eu/pro/"));
-                        if (browse.resolveActivity(pm) == null)
-                            Snackbar.make(view, view.getContext().getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
-                        else
-                            view.getContext().startActivity(browse);
-                    } else {
-                        settings.putExtra("packageName", app.packageName);
-                        view.getContext().startActivity(settings);
-                    }
-                    break;
+            int viewId = view.getId();
+            if (viewId == R.id.itemView) {
+                if (!expanded.containsKey(app.packageName))
+                    expanded.put(app.packageName, false);
+                expanded.put(app.packageName, !expanded.get(app.packageName));
+                updateExpand();
+            } else if (viewId == R.id.ivSettings) {
+                PackageManager pm = view.getContext().getPackageManager();
+                Intent settings = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
+                if (settings == null) {
+                    Intent browse = new Intent(Intent.ACTION_VIEW);
+                    browse.setData(Uri.parse("https://lua.xprivacy.eu/pro/"));
+                    if (browse.resolveActivity(pm) == null)
+                        Snackbar.make(view, view.getContext().getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                    else
+                        view.getContext().startActivity(browse);
+                } else {
+                    settings.putExtra("packageName", app.packageName);
+                    view.getContext().startActivity(settings);
+                }
             }
         }
 
@@ -183,22 +180,19 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             Log.i(TAG, "Check changed");
             final XApp app = filtered.get(getAdapterPosition());
 
-            switch (compoundButton.getId()) {
-                case R.id.cbAssigned:
-                    updateAssignments(compoundButton.getContext(), app, group, checked);
-                    notifyItemChanged(getAdapterPosition());
-                    break;
-
-                case R.id.cbForceStop:
-                    app.forceStop = checked;
-                    executor.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            XProvider.putSettingBoolean(
-                                    compoundButton.getContext(), app.packageName, "forcestop", app.forceStop);
-                        }
-                    });
-                    break;
+            int compoundButtonId = compoundButton.getId();
+            if (compoundButtonId == R.id.cbAssigned) {
+                updateAssignments(compoundButton.getContext(), app, group, checked);
+                notifyItemChanged(getAdapterPosition());
+            } else if (compoundButtonId == R.id.cbForceStop) {
+                app.forceStop = checked;
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        XProvider.putSettingBoolean(
+                                compoundButton.getContext(), app.packageName, "forcestop", app.forceStop);
+                    }
+                });
             }
         }
 

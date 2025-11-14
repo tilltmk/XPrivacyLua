@@ -320,88 +320,67 @@ public class ActivityMain extends ActivityBase {
             return true;
 
         Log.i(TAG, "Selected option " + item.getTitle());
-        switch (item.getItemId()) {
-            case R.id.menu_show:
-                AdapterApp.enumShow show = (fragmentMain == null ? AdapterApp.enumShow.none : fragmentMain.getShow());
-                this.menu.findItem(R.id.menu_show_user).setEnabled(show != AdapterApp.enumShow.none);
-                this.menu.findItem(R.id.menu_show_icon).setEnabled(show != AdapterApp.enumShow.none);
-                this.menu.findItem(R.id.menu_show_all).setEnabled(show != AdapterApp.enumShow.none);
-                switch (show) {
-                    case user:
-                        this.menu.findItem(R.id.menu_show_user).setChecked(true);
-                        break;
-                    case icon:
-                        this.menu.findItem(R.id.menu_show_icon).setChecked(true);
-                        break;
-                    case all:
-                        this.menu.findItem(R.id.menu_show_all).setChecked(true);
-                        break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_show) {
+            AdapterApp.enumShow show = (fragmentMain == null ? AdapterApp.enumShow.none : fragmentMain.getShow());
+            this.menu.findItem(R.id.menu_show_user).setEnabled(show != AdapterApp.enumShow.none);
+            this.menu.findItem(R.id.menu_show_icon).setEnabled(show != AdapterApp.enumShow.none);
+            this.menu.findItem(R.id.menu_show_all).setEnabled(show != AdapterApp.enumShow.none);
+            if (show == AdapterApp.enumShow.user) {
+                this.menu.findItem(R.id.menu_show_user).setChecked(true);
+            } else if (show == AdapterApp.enumShow.icon) {
+                this.menu.findItem(R.id.menu_show_icon).setChecked(true);
+            } else if (show == AdapterApp.enumShow.all) {
+                this.menu.findItem(R.id.menu_show_all).setChecked(true);
+            }
+            return true;
+        } else if (itemId == R.id.menu_show_user || itemId == R.id.menu_show_icon || itemId == R.id.menu_show_all) {
+            item.setChecked(!item.isChecked());
+            final AdapterApp.enumShow set;
+            if (itemId == R.id.menu_show_user) {
+                set = AdapterApp.enumShow.user;
+            } else if (itemId == R.id.menu_show_all) {
+                set = AdapterApp.enumShow.all;
+            } else {
+                set = AdapterApp.enumShow.icon;
+            }
+            fragmentMain.setShow(set);
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    XProvider.putSetting(ActivityMain.this, "global", "show", set.name());
                 }
-                return true;
-
-            case R.id.menu_show_user:
-            case R.id.menu_show_icon:
-            case R.id.menu_show_all:
-                item.setChecked(!item.isChecked());
-                final AdapterApp.enumShow set;
-                switch (item.getItemId()) {
-                    case R.id.menu_show_user:
-                        set = AdapterApp.enumShow.user;
-                        break;
-                    case R.id.menu_show_all:
-                        set = AdapterApp.enumShow.all;
-                        break;
-                    default:
-                        set = AdapterApp.enumShow.icon;
-                        break;
+            });
+            return true;
+        } else if (itemId == R.id.menu_theme) {
+            String currentTheme = getThemeName();
+            this.menu.findItem(R.id.menu_theme_auto).setChecked("auto".equals(currentTheme));
+            this.menu.findItem(R.id.menu_theme_light).setChecked("light".equals(currentTheme));
+            this.menu.findItem(R.id.menu_theme_dark).setChecked("dark".equals(currentTheme));
+            return true;
+        } else if (itemId == R.id.menu_theme_auto || itemId == R.id.menu_theme_light || itemId == R.id.menu_theme_dark) {
+            item.setChecked(!item.isChecked());
+            final String newTheme;
+            if (itemId == R.id.menu_theme_light) {
+                newTheme = "light";
+            } else if (itemId == R.id.menu_theme_dark) {
+                newTheme = "dark";
+            } else {
+                newTheme = "auto";
+            }
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    XProvider.putSetting(ActivityMain.this, "global", "theme", newTheme);
                 }
-                fragmentMain.setShow(set);
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        XProvider.putSetting(ActivityMain.this, "global", "show", set.name());
-                    }
-                });
-                return true;
-
-            case R.id.menu_theme:
-                String currentTheme = getThemeName();
-                this.menu.findItem(R.id.menu_theme_auto).setChecked("auto".equals(currentTheme));
-                this.menu.findItem(R.id.menu_theme_light).setChecked("light".equals(currentTheme));
-                this.menu.findItem(R.id.menu_theme_dark).setChecked("dark".equals(currentTheme));
-                return true;
-
-            case R.id.menu_theme_auto:
-            case R.id.menu_theme_light:
-            case R.id.menu_theme_dark:
-                item.setChecked(!item.isChecked());
-                final String newTheme;
-                switch (item.getItemId()) {
-                    case R.id.menu_theme_light:
-                        newTheme = "light";
-                        break;
-                    case R.id.menu_theme_dark:
-                        newTheme = "dark";
-                        break;
-                    default:
-                        newTheme = "auto";
-                        break;
-                }
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        XProvider.putSetting(ActivityMain.this, "global", "theme", newTheme);
-                    }
-                });
-                recreate();
-                return true;
-
-            case R.id.menu_help:
-                menuHelp();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+            });
+            recreate();
+            return true;
+        } else if (itemId == R.id.menu_help) {
+            menuHelp();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

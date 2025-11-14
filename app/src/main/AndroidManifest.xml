@@ -32,7 +32,8 @@
             android:name=".ActivityMain"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:resizeableActivity="true">
+            android:resizeableActivity="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

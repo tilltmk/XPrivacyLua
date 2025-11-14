@@ -3,11 +3,17 @@ apply plugin: 'com.android.application'
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdk 34
     namespace 'eu.faircode.xlua'
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "eu.faircode.xlua"
@@ -18,11 +24,13 @@ android {
         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
     }
     signingConfigs {
-        release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+        if (keystorePropertiesFile.exists()) {
+            release {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
 
@@ -31,7 +39,9 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
         debug {
             shrinkResources false
@@ -43,6 +53,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lintOptions {
+        disable 'InvalidSetHasFixedSize'
     }
 }
 
