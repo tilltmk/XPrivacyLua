@@ -39,11 +39,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
 
 class Util {
     private final static String TAG = "XLua.Util";
@@ -210,7 +209,7 @@ class Util {
         void onSure();
     }
 
-    static class DialogObserver implements LifecycleObserver {
+    static class DialogObserver implements DefaultLifecycleObserver {
         private LifecycleOwner owner = null;
         private Dialog dialog = null;
 
@@ -227,8 +226,8 @@ class Util {
             }
         }
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        public void onDestroy() {
+        @Override
+        public void onDestroy(@NonNull LifecycleOwner owner) {
             if (this.owner != null && this.dialog != null)
                 this.dialog.dismiss();
         }
