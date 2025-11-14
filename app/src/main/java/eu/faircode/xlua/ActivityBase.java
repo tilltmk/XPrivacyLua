@@ -19,9 +19,12 @@
 
 package eu.faircode.xlua;
 
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class ActivityBase extends AppCompatActivity {
     private String theme;
@@ -29,12 +32,34 @@ public class ActivityBase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         theme = XProvider.getSetting(this, "global", "theme");
-        setTheme("dark".equals(theme) ? R.style.AppThemeDark : R.style.AppThemeLight);
+        applyTheme();
 
         super.onCreate(savedInstanceState);
     }
 
+    private void applyTheme() {
+        if ("dark".equals(theme)) {
+            setTheme(R.style.AppThemeDark);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else if ("light".equals(theme)) {
+            setTheme(R.style.AppThemeLight);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            // System default (auto)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+            }
+
+            // Apply theme based on current system setting
+            boolean isDarkMode = (getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+            setTheme(isDarkMode ? R.style.AppThemeDark : R.style.AppThemeLight);
+        }
+    }
+
     String getThemeName() {
-        return (theme == null ? "light" : theme);
+        return (theme == null ? "auto" : theme);
     }
 }

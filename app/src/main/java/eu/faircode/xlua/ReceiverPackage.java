@@ -75,7 +75,9 @@ public class ReceiverPackage extends BroadcastReceiver {
                         builder.setVisibility(Notification.VISIBILITY_SECRET);
 
                         // Main
-                        int flags = (Build.VERSION.SDK_INT > Build.VERSION_CODES.R ? 0x04000000 : 0);
+                        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                            ? PendingIntent.FLAG_IMMUTABLE
+                            : 0;
                         Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                         main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
                         PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, flags);

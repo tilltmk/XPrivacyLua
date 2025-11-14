@@ -27,7 +27,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -365,6 +364,38 @@ public class ActivityMain extends ActivityBase {
                 });
                 return true;
 
+            case R.id.menu_theme:
+                String currentTheme = getThemeName();
+                this.menu.findItem(R.id.menu_theme_auto).setChecked("auto".equals(currentTheme));
+                this.menu.findItem(R.id.menu_theme_light).setChecked("light".equals(currentTheme));
+                this.menu.findItem(R.id.menu_theme_dark).setChecked("dark".equals(currentTheme));
+                return true;
+
+            case R.id.menu_theme_auto:
+            case R.id.menu_theme_light:
+            case R.id.menu_theme_dark:
+                item.setChecked(!item.isChecked());
+                final String newTheme;
+                switch (item.getItemId()) {
+                    case R.id.menu_theme_light:
+                        newTheme = "light";
+                        break;
+                    case R.id.menu_theme_dark:
+                        newTheme = "dark";
+                        break;
+                    default:
+                        newTheme = "auto";
+                        break;
+                }
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        XProvider.putSetting(ActivityMain.this, "global", "theme", newTheme);
+                    }
+                });
+                recreate();
+                return true;
+
             case R.id.menu_help:
                 menuHelp();
                 return true;
@@ -393,7 +424,7 @@ public class ActivityMain extends ActivityBase {
     }
 
     public void checkFirstRun() {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences prefs = getSharedPreferences("xlua_prefs", MODE_PRIVATE);
         boolean firstRun = prefs.getBoolean("firstrun", true);
         if (firstRun && firstRunDialog == null) {
             final Util.DialogObserver observer = new Util.DialogObserver();

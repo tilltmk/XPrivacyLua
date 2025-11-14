@@ -40,6 +40,10 @@
     <string name="menu_show_icon">Show apps with icon</string>
     <string name="menu_show_all">Show all apps</string>
     <string name="menu_search">Search</string>
+    <string name="menu_theme">Theme</string>
+    <string name="menu_theme_light">Light theme</string>
+    <string name="menu_theme_dark">Dark theme</string>
+    <string name="menu_theme_auto">System default</string>
     <string name="menu_help">Help</string>
     <string name="menu_notify_new">Notify on new apps</string>
     <string name="menu_restrict_new">Restrict new apps</string>
