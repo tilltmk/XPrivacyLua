@@ -1362,13 +1362,37 @@ class XProvider {
 
     static boolean isAvailable(Context context) {
         try {
+            // First, check if XposedBridge is accessible (indicates module is loaded)
+            try {
+                Class.forName("de.robv.android.xposed.XposedBridge");
+                // XposedBridge is available, module is likely active
+                Log.i(TAG, "XposedBridge detected - module is active");
+                return true;
+            } catch (ClassNotFoundException ignored) {
+                // XposedBridge not found, fall through to provider check
+            }
+
+            // Fallback: Try to contact the Settings provider
             PackageInfo pi = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, 0);
             Bundle result = context.getContentResolver()
                     .call(XProvider.getURI(), "xlua", "getVersion", new Bundle());
-            return (result != null && pi.versionCode == result.getInt("version"));
+
+            if (result != null && pi.versionCode == result.getInt("version")) {
+                Log.i(TAG, "Module version verified via provider");
+                return true;
+            }
+
+            // If we got here, neither check succeeded
+            Log.w(TAG, "Module activation check failed - please ensure LSPosed has activated the module for 'System Framework' and restart");
+            return false;
         } catch (Throwable ex) {
+            Log.e(TAG, "Error checking module availability: " + ex.getMessage());
             Log.e(TAG, Log.getStackTraceString(ex));
-            XposedBridge.log(ex);
+            try {
+                XposedBridge.log(ex);
+            } catch (Throwable ignored) {
+                // XposedBridge might not be available
+            }
             return false;
         }
     }
