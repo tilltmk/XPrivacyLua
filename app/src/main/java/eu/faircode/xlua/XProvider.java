@@ -1128,7 +1128,14 @@ class XProvider {
         PackageManager pm = context.getPackageManager();
         ApplicationInfo ai = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, 0);
         for (XHook builtin : XHook.readHooks(context, ai.publicSourceDir)) {
-            builtin.resolveClassName(context);
+            try {
+                builtin.resolveClassName(context);
+            } catch (Throwable ex) {
+                Log.e(TAG, "Skipping hook " + builtin.getId() + ": " + ex);
+                continue;
+            }
+            if (builtins.containsKey(builtin.getId()))
+                Log.w(TAG, "Duplicate hook id " + builtin.getId());
             builtins.put(builtin.getId(), builtin);
             hooks.put(builtin.getId(), builtin);
         }

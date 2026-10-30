@@ -28,7 +28,9 @@
 
 #LuaJ
 -dontwarn org.luaj.vm2.**
--keepnames class org.luaj.vm2.** {*; }
+# LuaJ instanziiert seine Bibliotheksklassen per Reflection (LibFunction.bind); ohne -keep entfernt R8 deren Konstruktoren und jeder Hook scheitert
+# mit "bind failed: ... cannot be instantiated" (Fassung 1.36/1.37: 512 Fehlermeldungen in der Benachrichtigungsleiste)
+-keep class org.luaj.vm2.** {*; }
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule

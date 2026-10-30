@@ -19,8 +19,8 @@ android {
         applicationId "eu.tilltmk.xlua.ng"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 137
-        versionName "1.36"
+        versionCode 138
+        versionName "1.37"
         archivesBaseName = "XPrivacyLua-NG-v$versionName-$versionCode"
     }
     signingConfigs {
@@ -100,3 +100,24 @@ dependencies {
     // Embedded LuaJ library
     // http://www.luaj.org/luaj/3.0/README.html
 }
+
+// Bricht den Build ab, wenn hooks.json doppelte IDs oder Verweise auf fehlende Lua-Dateien enthält.
+// Ein einziger solcher Eintrag legte zur Laufzeit alle Hooks lahm (Fassung 1.36: @generic_null/@generic_zero gab es nicht).
+tasks.register('validateHooks') {
+    def hooksFile = file('src/main/assets/hooks.json')
+    def assetsDir = file('src/main/assets')
+    inputs.dir(assetsDir)
+    doLast {
+        def slurper = new groovy.json.JsonSlurper()
+        slurper.setType(groovy.json.JsonParserType.LAX) // erlaubt die Kommentare in hooks.json
+        def seen = [] as Set
+        slurper.parse(hooksFile).each { h ->
+            def id = h.collection + '.' + h.name
+            if (!seen.add(id))
+                throw new GradleException("hooks.json: doppelte ID ${id}")
+            if (h.luaScript?.startsWith('@') && !new File(assetsDir, h.luaScript.substring(1) + '.lua').exists())
+                throw new GradleException("hooks.json: ${h.luaScript}.lua fehlt für ${id}")
+        }
+    }
+}
+preBuild.dependsOn 'validateHooks'

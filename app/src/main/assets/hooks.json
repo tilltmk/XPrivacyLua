@@ -2975,7 +2975,7 @@
     "returnType": "android.app.usage.UsageEvents",
     "minSdk": 21,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -3028,23 +3028,6 @@
     "enabled": true,
     "luaScript": "@batterymanager_long_property"
   },
-  // AGGRESSIVE NEW HOOKS - Modern Device ID (Android 8+)
-  // https://developer.android.com/reference/android/os/Build
-  {
-    "collection": "Privacy",
-    "group": "Read.Identification",
-    "name": "Build.getSerial",
-    "author": "Claude-Privacy-2025",
-    "description": "Block modern device serial number (Android 8+)",
-    "className": "android.os.Build",
-    "methodName": "getSerial",
-    "parameterTypes": [
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 26,
-    "enabled": true,
-    "luaScript": "@generic_fake_build_serial"
-  },
   // AGGRESSIVE NEW HOOKS - Network Stats Spying
   // https://developer.android.com/reference/android/app/usage/NetworkStatsManager
   {
@@ -3064,7 +3047,7 @@
     "returnType": "android.app.usage.NetworkStats",
     "minSdk": 23,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -3083,7 +3066,7 @@
     "returnType": "android.app.usage.NetworkStats",
     "minSdk": 23,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   // AGGRESSIVE NEW HOOKS - Thermal Fingerprinting (Android 9+)
   // https://developer.android.com/reference/android/os/HardwarePropertiesManager
@@ -3182,7 +3165,7 @@
     "returnType": "int",
     "minSdk": 19,
     "enabled": true,
-    "luaScript": "@generic_zero"
+    "luaScript": "@generic_zero_value"
   },
   {
     "collection": "Privacy",
@@ -3197,6 +3180,6 @@
     "returnType": "int",
     "minSdk": 19,
     "enabled": true,
-    "luaScript": "@generic_zero"
+    "luaScript": "@generic_zero_value"
   }
 ]

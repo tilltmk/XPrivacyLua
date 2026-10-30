@@ -1,5 +1,17 @@
 # XPrivacyLua NG Changelog
 
+## Version 1.37-NG (2026-10-30)
+
+### Behoben (Android 14, LSPosed, Galaxy A54 geprüft)
+
+- **Keine Hooks geladen:** `hooks.json` verwies auf nicht vorhandene Lua-Skripte (`@generic_null`, `@generic_zero`, `generic_fake_build_serial`) und enthielt
+  `Privacy.Build.getSerial` doppelt. Ein einziger kaputter Eintrag ließ `XHook.readHooks` für alle Hooks scheitern. Verweise korrigiert, Duplikat entfernt.
+- **Pro-Hook-Toleranz:** `XHook.readHooks` und `XProvider.loadHooks` überspringen einen kaputten Eintrag mit Logeintrag (`XLua.Hook`), statt alle zu verlieren.
+- **Lua-Engine startete nicht** (`bind failed … Bit32LibV cannot be instantiated`, 512 Ausnahmen, Flut von Fehlerbenachrichtigungen): R8 entfernte die Konstruktoren
+  der LuaJ-Klassen, die LuaJ reflektiv erzeugt. `-keepnames` durch `-keep class org.luaj.vm2.** {*; }` ersetzt.
+- **Bauprüfung:** Die Gradle-Aufgabe `validateHooks` bricht den Bau ab, wenn `hooks.json` eine ID doppelt führt oder ein referenziertes Lua-Skript fehlt.
+- `*.keystore` in `.gitignore`.
+
 ## Version 1.36-NG (2025-01-14)
 
 ### Initial NG Fork Release

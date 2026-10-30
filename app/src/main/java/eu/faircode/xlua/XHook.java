@@ -31,6 +31,8 @@ import android.os.Parcelable;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -242,6 +244,8 @@ public class XHook implements Parcelable {
                 ArrayList<XHook> hooks = new ArrayList<>();
                 JSONArray jarray = new JSONArray(json);
                 for (int i = 0; i < jarray.length(); i++) {
+                    // Ein kaputter Eintrag darf nicht alle Hooks lahmlegen
+                    try {
                     XHook hook = XHook.fromJSONObject(jarray.getJSONObject(i));
                     hook.builtin = true;
 
@@ -266,6 +270,9 @@ public class XHook implements Parcelable {
                     }
 
                     hooks.add(hook);
+                    } catch (Throwable ex) {
+                        Log.e("XLua.Hook", "Skipping broken hook definition #" + i + ": " + ex);
+                    }
                 }
 
                 return hooks;

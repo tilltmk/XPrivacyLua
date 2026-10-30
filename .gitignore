@@ -11,3 +11,4 @@
 /tools/config.sh
 /app/release
 keystore.properties
+*.keystore
