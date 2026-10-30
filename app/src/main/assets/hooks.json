@@ -3097,10 +3097,10 @@
     "methodName": "getCpuUsages",
     "parameterTypes": [
     ],
-    "returnType": "float[]",
+    "returnType": "[Landroid.os.CpuUsageInfo;",
     "minSdk": 24,
     "enabled": true,
-    "luaScript": "@generic_empty_float_array"
+    "luaScript": "@hardwarepropertiesmanager_getcpuusages"
   },
   {
     "collection": "Privacy",

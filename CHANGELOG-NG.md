@@ -13,6 +13,9 @@
 - `*.keystore` in `.gitignore`.
 - **Endloser Ladekreis:** `FragmentMain` setzte ein fehlendes `theme` auf `"light"`, `ActivityBase.getThemeName()` meldet dafür `"auto"`; `onLoadFinished` rief deshalb
   bei jedem Laden `recreate()` auf (gemessen: alle 1,4 s `Schedule relaunch activity`). Standard jetzt `"auto"` auf beiden Seiten.
+- **`HardwarePropertiesManager.getCpuUsages`:** Der Hook erklärte `float[]` als Rückgabetyp, die Methode liefert `CpuUsageInfo[]`; bei jedem Start einer zugewiesenen App kam `Invalid return type`
+  und eine Fehlerbenachrichtigung. Rückgabetyp korrigiert, eigenes Skript `hardwarepropertiesmanager_getcpuusages.lua` (leeres `CpuUsageInfo[]`). Wirkt erst nach einem Neustart des Geräts
+  (die Hook-Definitionen liegen im Speicher von `system_server`).
 
 ## Version 1.36-NG (2025-01-14)
 
