@@ -11,6 +11,8 @@
   der LuaJ-Klassen, die LuaJ reflektiv erzeugt. `-keepnames` durch `-keep class org.luaj.vm2.** {*; }` ersetzt.
 - **Bauprüfung:** Die Gradle-Aufgabe `validateHooks` bricht den Bau ab, wenn `hooks.json` eine ID doppelt führt oder ein referenziertes Lua-Skript fehlt.
 - `*.keystore` in `.gitignore`.
+- **Endloser Ladekreis:** `FragmentMain` setzte ein fehlendes `theme` auf `"light"`, `ActivityBase.getThemeName()` meldet dafür `"auto"`; `onLoadFinished` rief deshalb
+  bei jedem Laden `recreate()` auf (gemessen: alle 1,4 s `Schedule relaunch activity`). Standard jetzt `"auto"` auf beiden Seiten.
 
 ## Version 1.36-NG (2025-01-14)
 

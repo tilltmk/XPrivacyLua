@@ -253,8 +253,9 @@ public class FragmentMain extends Fragment {
             DataHolder data = new DataHolder();
             try {
                 data.theme = XProvider.getSetting(getContext(), "global", "theme");
+                // Muss zu ActivityBase.getThemeName() passen, sonst ruft onLoadFinished endlos recreate() auf (Ladekreis ohne Ende)
                 if (data.theme == null)
-                    data.theme = "light";
+                    data.theme = "auto";
 
                 // Define hooks
                 if (BuildConfig.DEBUG) {
