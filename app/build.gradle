@@ -19,7 +19,8 @@ android {
         applicationId "eu.tilltmk.xlua.ng"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 138
+        // Anzahl der Commits: steigt mit jedem Stand, die OTA-Aktualisierung der Geräte installiert nur höhere versionCodes
+        versionCode 'git rev-list --count HEAD'.execute([], rootDir).text.trim().toInteger()
         versionName "1.37"
         archivesBaseName = "XPrivacyLua-NG-v$versionName-$versionCode"
     }
